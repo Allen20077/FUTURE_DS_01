@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sales Analytics</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<div class="navbar">
+    <h2>📊 Sales Analytics</h2>
+    <div>
+        <a href="/">Home</a>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/forecast">Forecast</a>
+    </div>
+</div>
+
+<div class="container">
+    {% block content %}{% endblock %}
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+fetch("/api/forecast")
+.then(res => res.json())
+.then(data => {
+
+    const ctx = document.getElementById("forecastBar");
+
+    new Chart(ctx, {
+    type: "bar",
+    data: {
+        labels: data.labels,
+        datasets: [{
+        label: "Forecasted Sales",
+        data: data.values,
+        backgroundColor: "#4fa3a5",
+        borderRadius: 8
+        }]
+    },
+    options: {
+        responsive: true,
+        animation: {
+        duration: 2000,
+        easing: "easeOutQuart",
+          delay: (ctx) => ctx.dataIndex * 120
+        },
+        plugins: {
+        legend: { display: false }
+        },
+        scales: {
+        y: {
+            beginAtZero: true
+        }
+        }
+    }
+    });
+
+});
+/* ================= KPI COUNTER ================= */
+document.querySelectorAll(".counter").forEach(counter => {
+    const target = +counter.dataset.target;
+    let value = 0;
+    const speed = target / 80;
+
+    const update = () => {
+        value += speed;
+        if (value < target) {
+            counter.innerText = Math.floor(value).toLocaleString();
+            requestAnimationFrame(update);
+        } else {
+            counter.innerText = target.toLocaleString();
+        }
+    };
+
+    update();
+});
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>

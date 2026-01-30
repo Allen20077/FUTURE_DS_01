@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="light-dashboard">
+
+    <!-- HEADER -->
+    <div class="dash-header">
+        <h1>Business Data Analysis Dashboard</h1>
+        <p>Comprehensive insights into sales performance and trends</p>
+    </div>
+
+    <!-- STEP CARDS -->
+    <div class="step-card">
+        <div class="step">
+            <span class="badge blue">Title 01</span>
+            <p>Weekly sales performance overview</p>
+        </div>
+        <div class="step">
+            <span class="badge teal">Title 02</span>
+            <p>Top products and categories analysis</p>
+        </div>
+        <div class="step">
+            <span class="badge green">Title 03</span>
+            <p>Customer demographics and behavior insights</p>
+        </div>
+    </div>
+
+    <!-- GRID -->
+    <div class="dash-grid">
+
+<div class="card">
+    <div class="card-header">
+        <i class="fa-solid fa-chart-bar big-icon gradient icon-hover tooltip" data-tip="Category Distribution"></i>
+        <h3>Title 04</h3>
+    </div>
+    <canvas id="stackedBar"></canvas>
+</div>
+
+        <!-- LINE CHART -->
+        <div class="card">
+            <h3>Title 05</h3>
+            <canvas id="lineChart"></canvas>
+        </div>
+
+        <!-- DONUT -->
+        <div class="card">
+            <h3>Title 06</h3>
+            <canvas id="donutChart"></canvas>
+        </div>
+
+        <!-- AREA -->
+        <div class="card">
+            <h3>Title 07</h3>
+            <canvas id="areaChart"></canvas>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+/* STACKED BAR */
+new Chart(document.getElementById("stackedBar").getContext("2d"), {
+
+    type: "bar",
+    data: {
+        labels: ["Category 1","Category 2","Category 3"],
+        datasets: [
+            { data: [50,40,60], backgroundColor:"#4dabf7" },
+            { data: [30,35,20], backgroundColor:"#63cdda" },
+            { data: [20,25,20], backgroundColor:"#55efc4" }
+        ]
+    },
+    options: {
+        indexAxis: "y",
+        responsive: true,
+        plugins: { legend: { display:false } },
+        scales: { x: { stacked:true }, y: { stacked:true } }
+    }
+});
+
+/* LINE */
+new Chart(document.getElementById("lineChart").getContext("2d"), {
+
+    type: "line",
+    data: {
+        labels: ["Jan","Feb","Mar","Apr","May"],
+        datasets: [
+            { data:[2,4,3,5,4], borderColor:"#4dabf7", fill:false },
+            { data:[3,2,4,3,2], borderColor:"#ffa94d", fill:false }
+        ]
+    }
+});
+
+/* DONUT */
+new Chart(document.getElementById("donutChart").getContext("2d"), {
+    type: "doughnut",
+    data: {
+        labels:["A","B","C"],
+        datasets:[{
+            data:[45,30,25],
+            backgroundColor:["#4dabf7","#63cdda","#eaeaea"]
+        }]
+    },
+    options:{ cutout:"70%" }
+});
+
+/* AREA */
+new Chart(document.getElementById("areaChart").getContext("2d"), {
+
+    type:"line",
+    data:{
+        labels:["2020","2021","2022","2023","2024"],
+        datasets:[{
+            data:[10,18,12,20,14],
+            backgroundColor:"rgba(77,171,247,0.3)",
+            borderColor:"#4dabf7",
+            fill:true
+        }]
+    }
+});
+});
+</script>
+
+{% endblock %}
