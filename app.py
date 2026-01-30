@@ -2,6 +2,9 @@ from flask import Flask, render_template, jsonify
 import pandas as pd
 import os
 
+from flask import Flask
+app = Flask(__name__)
+
 app = Flask(__name__)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -112,6 +115,10 @@ def filtered_data():
         "labels": summary["Region"].tolist(),
         "values": summary["Revenue"].tolist()
     })
+    
+@app.route("/")
+def index():
+    return "Flask app running on Vercel"
 
 if __name__ == "__main__":
     app.run()
